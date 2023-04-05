@@ -11,15 +11,15 @@ import { accountApi } from 'resources/account';
 
 import UserMenu from './components/UserMenu';
 import ShadowLoginBanner from './components/ShadowLoginBanner';
+import LoginButtons from './components/LoginButtons';
+import Navbar from './components/Navbar';
 
 const Header: FC = () => {
   const { data: account } = accountApi.useGet();
 
-  if (!account) return null;
-
   return (
-    <LayoutHeader height="72px">
-      {account.isShadow && <ShadowLoginBanner email={account.email} />}
+    <LayoutHeader height={72}>
+      {account?.isShadow && <ShadowLoginBanner email={account.email} />}
       <Container
         sx={(theme) => ({
           minHeight: '72px',
@@ -33,9 +33,13 @@ const Header: FC = () => {
         })}
         fluid
       >
-        <Link type="router" href={RoutePath.Home}>
+        <Link type="router" href={RoutePath.Gallery}>
           <LogoImage />
         </Link>
+        {account && <Navbar />}
+        {!account && (
+          <LoginButtons />
+        )}
         <UserMenu />
       </Container>
     </LayoutHeader>

@@ -4,7 +4,7 @@ import galleryService from '../gallery.service';
 async function handler(ctx: AppKoaContext) {
   const { user } = ctx.state;
 
-  const artArr = await galleryService.find({ userId: user._id });
+  const artArr = await galleryService.find({ userId: user._id }, undefined, { sort: { createdOn: 'desc' } });
 
   ctx.body = artArr;
 }
