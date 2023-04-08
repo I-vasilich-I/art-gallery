@@ -4,7 +4,7 @@ import config from 'config';
 import { AppKoaContext, Next, AppRouter } from 'types';
 
 import { validateMiddleware } from 'middlewares';
-import { authService, emailService } from 'services';
+import { authService } from 'services';
 import { userService, User } from 'resources/user';
 
 const schema = z.object({
@@ -40,11 +40,11 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
     authService.setTokens(ctx, user._id),
   ]);
 
-  await emailService.sendSignUpWelcome(user.email, {
-    userName: user.fullName,
-    actionLink: `${config.webUrl}/sign-in`,
-    actionText: 'Sign in',
-  });
+  // await emailService.sendSignUpWelcome(user.email, {
+  //   userName: user.fullName,
+  //   actionLink: `${config.webUrl}/sign-in`,
+  //   actionText: 'Sign in',
+  // });
 
   ctx.redirect(config.webUrl);
 }
