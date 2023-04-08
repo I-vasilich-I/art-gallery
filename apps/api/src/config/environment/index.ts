@@ -8,7 +8,7 @@ const base = {
   isDev: env === 'development' || env === 'development-docker',
   mongo: {
     connection: process.env.MONGO_CONNECTION || '',
-    dbName: '',
+    dbName: process.env.MONGO_DB_NAME || '',
   },
   apiUrl: '',
   webUrl: '',
