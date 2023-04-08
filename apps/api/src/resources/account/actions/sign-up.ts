@@ -64,7 +64,8 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
   //   verifyEmailUrl: `${config.apiUrl}/account/verify-email?token=${signupToken}`,
   // });
 
-  ctx.body = config.isDev ? { signupToken } : {};
+  // since it's a only a test app, I'll return token in production as well
+  ctx.body = { signupToken }; // config.isDev ? { signupToken } : {};
 }
 
 export default (router: AppRouter) => {
