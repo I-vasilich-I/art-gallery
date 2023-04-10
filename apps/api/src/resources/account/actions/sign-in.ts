@@ -39,6 +39,7 @@ async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
 
 async function handler(ctx: AppKoaContext<ValidatedData>) {
   const { user } = ctx.validatedData;
+  ctx.cookies.secure = true;
 
   await Promise.all([
     userService.updateLastRequest(user._id),

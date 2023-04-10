@@ -20,7 +20,8 @@ export const setTokenCookies = ({
   ctx.cookies.set(COOKIES.ACCESS_TOKEN, accessToken, {
     httpOnly: true,
     domain: cookiesDomain,
-    path: '/gallery',
+    sameSite: 'none',
+    secure: true,
     expires: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000), // 10 years
   });
 };
