@@ -2,6 +2,7 @@ import { AppKoaContext, AppRouter, Next } from 'types';
 import { z } from 'zod';
 import { galleryService } from 'resources/gallery';
 import { validateMiddleware } from 'middlewares';
+import { ERROR_MESSAGES } from 'app.constants';
 
 
 const schema = z.object({
@@ -20,7 +21,7 @@ async function validator(ctx: AppKoaContext<ValidatedData, Request>, next: Next)
   const isArtExists = await galleryService.exists({ _id: ctx.request.params.id, userId: ctx.state.user._id });
   
 
-  ctx.assertError(isArtExists, 'Art not found');
+  ctx.assertError(isArtExists, ERROR_MESSAGES.ENTITY_NOT_FOUND('Art'));
 
   await next();
 }
