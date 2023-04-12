@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-import config from 'config';
+// import config from 'config';
 import { securityUtil } from 'utils';
-import { emailService } from 'services';
+// import { emailService } from 'services';
 import { validateMiddleware } from 'middlewares';
 import { AppKoaContext, Next, AppRouter } from 'types';
 import { userService, User } from 'resources/user';
@@ -36,15 +36,15 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
     }));
   }
 
-  const resetPasswordUrl =
-    `${config.apiUrl}/account/verify-reset-token?token=${resetPasswordToken}&email=${encodeURIComponent(user.email)}`;
-  await emailService.sendForgotPassword(
-    user.email,
-    {
-      firstName: user.firstName,
-      resetPasswordUrl,
-    },
-  );
+  // const resetPasswordUrl =
+  //   `${config.apiUrl}/account/verify-reset-token?token=${resetPasswordToken}&email=${encodeURIComponent(user.email)}`;
+  // await emailService.sendForgotPassword(
+  //   user.email,
+  //   {
+  //     firstName: user.firstName,
+  //     resetPasswordUrl,
+  //   },
+  // );
 
   ctx.body = {};
 }

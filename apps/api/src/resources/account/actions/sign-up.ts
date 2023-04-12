@@ -1,19 +1,22 @@
 import { z } from 'zod';
 
-import config from 'config';
+// import config from 'config';
 import { securityUtil } from 'utils';
-import { analyticsService, emailService } from 'services';
+import { analyticsService } from 'services';
 import { validateMiddleware } from 'middlewares';
 import { AppKoaContext, Next, AppRouter } from 'types';
 import { userService, User } from 'resources/user';
+import { ERROR_MESSAGES, PASSWORD_REGEX, VALIDATION_MESSAGES } from 'app.constants';
+
+const { ENTER_ENTITY, INCORRECT_EMAIL_FORMAT, INCORRECT_PASSWORD_FORMAT } = VALIDATION_MESSAGES;
 
 const schema = z.object({
-  firstName: z.string().min(1, 'Please enter First name').max(100),
-  lastName: z.string().min(1, 'Please enter Last name').max(100),
-  email: z.string().min(1, 'Please enter email').email('Email format is incorrect.'),
+  firstName: z.string().min(1, ENTER_ENTITY('First name')).max(100),
+  lastName: z.string().min(1, ENTER_ENTITY('Last name')).max(100),
+  email: z.string().min(1, ENTER_ENTITY('email')).email(INCORRECT_EMAIL_FORMAT),
   password: z.string().regex(
-    /^(?=.*[a-z])(?=.*\d)[A-Za-z\d\W]{6,}$/g,
-    'The password must contain 6 or more characters with at least one letter (a-z) and one number (0-9).',
+    PASSWORD_REGEX,
+    INCORRECT_PASSWORD_FORMAT,
   ),
 });
 
@@ -26,7 +29,7 @@ async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
 
   const isUserExists = await userService.exists({ email });
   ctx.assertClientError(!isUserExists, {
-    email: 'User with this email is already registered',
+    email: ERROR_MESSAGES.USER_WITH_EMAIL_EXIST,
   });
 
   await next();
@@ -60,11 +63,12 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
     lastName,
   });
 
-  await emailService.sendVerifyEmail(user.email, {
-    verifyEmailUrl: `${config.apiUrl}/account/verify-email?token=${signupToken}`,
-  });
+  // await emailService.sendVerifyEmail(user.email, {
+  //   verifyEmailUrl: `${config.apiUrl}/account/verify-email?token=${signupToken}`,
+  // });
 
-  ctx.body = config.isDev ? { signupToken } : {};
+  // since it's a only a test app, I'll return token in production as well
+  ctx.body = { signupToken }; // config.isDev ? { signupToken } : {};
 }
 
 export default (router: AppRouter) => {

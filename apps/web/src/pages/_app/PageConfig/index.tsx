@@ -46,12 +46,12 @@ const PageConfig: FC<PageConfigProps> = ({ children }) => {
   const Layout = layout ? layoutToComponent[layout] : Fragment;
 
   if (scope === ScopeType.PRIVATE && !account) {
-    push(RoutePath.SignIn);
+    push(RoutePath.Gallery);
     return null;
   }
 
-  if (scope === ScopeType.PUBLIC && account) {
-    push(RoutePath.Home);
+  if (scope === ScopeType.PUBLIC && account && layout === LayoutType.UNAUTHORIZED) {
+    push(RoutePath.MyArt);
     return null;
   }
 

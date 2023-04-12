@@ -17,7 +17,7 @@ const Footer: FC = () => {
         fontSize: '12px',
       })}
     >
-      {`Ship ${year} © All rights reserved`}
+      {`Oleg Vaskevich ${year} © All rights reserved. Powered by Ship`}
     </LayoutFooter>
   );
 };

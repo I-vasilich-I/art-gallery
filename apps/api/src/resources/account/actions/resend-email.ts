@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-import config from 'config';
+// import config from 'config';
 import { securityUtil } from 'utils';
-import { emailService } from 'services';
+// import { emailService } from 'services';
 import { validateMiddleware } from 'middlewares';
 import { AppKoaContext, Next, AppRouter } from 'types';
 import { userService, User } from 'resources/user';
@@ -33,9 +33,9 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
 
   await Promise.all([
     userService.updateOne({ _id: user._id }, () => ({ resetPasswordToken })),
-    emailService.sendForgotPassword(user.email, {
-      resetPasswordLink: `${config.webUrl}/reset-password?token=${resetPasswordToken}`,
-    }),
+    // emailService.sendForgotPassword(user.email, {
+    //   resetPasswordLink: `${config.webUrl}/reset-password?token=${resetPasswordToken}`,
+    // }),
   ]);
 
   ctx.body = {};
