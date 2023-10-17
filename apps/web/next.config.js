@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   webpack(config) {
     config.module.rules.push({
@@ -16,5 +18,9 @@ module.exports = {
   },
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  experimental: {
+    // this includes files from the monorepo base two directories up
+    outputFileTracingRoot: path.join(__dirname, '../../'),
   },
 };

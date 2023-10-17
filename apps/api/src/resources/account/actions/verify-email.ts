@@ -4,11 +4,12 @@ import config from 'config';
 import { AppKoaContext, Next, AppRouter } from 'types';
 
 import { validateMiddleware } from 'middlewares';
-import { authService, emailService } from 'services';
+import { authService } from 'services';
 import { userService, User } from 'resources/user';
+import { ERROR_MESSAGES, STATUS_CODES, VALIDATION_MESSAGES } from 'app.constants';
 
 const schema = z.object({
-  token: z.string().min(1, 'Token is required'),
+  token: z.string().min(1, VALIDATION_MESSAGES.ENTITY_REQUIRED('Token')),
 });
 
 interface ValidatedData extends z.infer<typeof schema> {
@@ -18,7 +19,7 @@ interface ValidatedData extends z.infer<typeof schema> {
 async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
   const user = await userService.findOne({ signupToken: ctx.validatedData.token });
 
-  ctx.assertClientError(user, { token: 'Token is invalid' }, 404);
+  ctx.assertClientError(user, { token: ERROR_MESSAGES.INVALID_TOKEN }, STATUS_CODES.NOT_FOUND);
 
   ctx.validatedData.user = user;
   await next();
@@ -40,11 +41,11 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
     authService.setTokens(ctx, user._id),
   ]);
 
-  await emailService.sendSignUpWelcome(user.email, {
-    userName: user.fullName,
-    actionLink: `${config.webUrl}/sign-in`,
-    actionText: 'Sign in',
-  });
+  // await emailService.sendSignUpWelcome(user.email, {
+  //   userName: user.fullName,
+  //   actionLink: `${config.webUrl}/sign-in`,
+  //   actionText: 'Sign in',
+  // });
 
   ctx.redirect(config.webUrl);
 }

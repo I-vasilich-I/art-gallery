@@ -16,7 +16,7 @@ import PageConfig from './PageConfig';
 const App: FC<AppProps> = ({ Component, pageProps }) => (
   <>
     <Head>
-      <title>Ship</title>
+      <title>Art Gallery</title>
     </Head>
     <QueryClientProvider client={queryClient}>
       <MantineProvider

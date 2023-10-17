@@ -1,5 +1,5 @@
 {
-  "apiUrl": "http://localhost:3001",
-  "wsUrl": "http://localhost:3001",
-  "webUrl": "http://localhost:3002"
+  "apiUrl": "https://art-api.onrender.com",
+  "webUrl": "https://art-web.onrender.com",
+  "wsUrl": "https://art-api.onrender.com"
 }

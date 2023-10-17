@@ -12,6 +12,10 @@ export enum RoutePath {
   // Private paths
   Home = '/',
   Profile = '/profile',
+  MyArt = '/my-art',
+
+  // Gallery paths
+  Gallery = '/gallery',
 
   // Auth paths
   SignIn = '/sign-in',
@@ -38,6 +42,16 @@ export const routesConfiguration: RoutesConfiguration = {
   },
   [RoutePath.Profile]: {
     scope: ScopeType.PRIVATE,
+    layout: LayoutType.MAIN,
+  },
+  [RoutePath.MyArt]: {
+    scope: ScopeType.PRIVATE,
+    layout: LayoutType.MAIN,
+  },
+
+  // Gallery routes
+  [RoutePath.Gallery]: {
+    scope: ScopeType.PUBLIC,
     layout: LayoutType.MAIN,
   },
 
